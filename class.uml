@@ -1,6 +1,5 @@
 @startuml Diet Assistant Class Diagram
 
-' Abstract class and Interface
 abstract class Food {
   +String identifier
   +List<String> keywords
@@ -11,7 +10,6 @@ interface CalorieCalculator {
   +int calculateTargetCalories(UserProfile user)
 }
 
-' Food hierarchy
 class BasicFood extends Food {
   +String identifier
   +List<String> keywords
@@ -27,7 +25,6 @@ class CompositeFood extends Food {
   +void addIngredient(Food food, int servings)
 }
 
-' Database management
 class FoodDatabase {
   +List<Food> foods
   +void addBasicFood(String identifier, List<String> keywords, int calories)
@@ -37,7 +34,6 @@ class FoodDatabase {
   +void loadDatabase()
 }
 
-' Logging classes
 class LogEntry {
   +Date date
   +Food food
@@ -54,7 +50,6 @@ class DailyLog {
   +void loadLog()
 }
 
-' User profile and calculators
 class UserProfile {
   +String gender
   +double height
@@ -73,7 +68,6 @@ class AlternateCalculator implements CalorieCalculator {
   +int calculateTargetCalories(UserProfile user)
 }
 
-' Relationships
 CompositeFood o-- "0..*" Food : aggregates
 DailyLog *-- "0..*" LogEntry : composition
 UserProfile --> CalorieCalculator : uses

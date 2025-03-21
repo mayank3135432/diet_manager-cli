@@ -80,3 +80,5 @@
 - **Composition**: DailyLog has a strong ownership of LogEntry objects.
 - **Association**: UserProfile has an association with CalorieCalculator (Strategy Pattern for flexible calculations).
 - **Generalization**: BMRCalculator and AlternateCalculator both implement CalorieCalculator.
+
+
