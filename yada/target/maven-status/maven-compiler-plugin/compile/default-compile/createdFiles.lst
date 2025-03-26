@@ -1,0 +1,13 @@
+com/yada/model/BMRCalculator.class
+com/yada/model/DailyLog.class
+com/yada/model/BasicFood.class
+com/yada/model/Food.class
+com/yada/model/UserProfile.class
+com/yada/service/UserProfileService.class
+com/yada/model/CalorieCalculator.class
+com/yada/service/FoodService.class
+com/yada/cli/YADAConsoleApp.class
+com/yada/model/LogEntry.class
+com/yada/service/LogService.class
+com/yada/model/AlternateCalculator.class
+com/yada/model/CompositeFood.class
