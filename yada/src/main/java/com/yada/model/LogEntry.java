@@ -1,7 +1,10 @@
 package com.yada.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LogEntry implements Serializable {
   private LocalDate date;
   private Food food;
