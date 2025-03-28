@@ -9,6 +9,10 @@ public class UserProfile implements Serializable {
     private int age;
     private String activityLevel;
 
+    // Default constructor for Jackson
+    public UserProfile() {
+    }
+
     public UserProfile(String gender, double height, double weight, int age, String activityLevel) {
         this.gender = gender;
         this.height = height;
@@ -32,6 +36,3 @@ public class UserProfile implements Serializable {
     public int getAge() { return age; }
     public String getActivityLevel() { return activityLevel; }
 }
-
-
-

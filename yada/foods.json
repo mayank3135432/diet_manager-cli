@@ -1,5 +1,9 @@
 [ "java.util.ArrayList", [ [ "com.yada.model.BasicFood", {
-  "identifier" : "Badam",
-  "keywords" : [ "java.util.Arrays$ArrayList", [ "iron", "magnesium", "protien" ] ],
+  "identifier" : "Veg",
+  "keywords" : [ "java.util.Arrays$ArrayList", [ "dhaniya", "papaya" ] ],
   "calories" : 234
+} ], [ "com.yada.model.BasicFood", {
+  "identifier" : "Non-veg",
+  "keywords" : [ "java.util.Arrays$ArrayList", [ "chicken", "egg" ] ],
+  "calories" : 400
 } ] ] ]

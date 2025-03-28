@@ -7,6 +7,10 @@ public class LogEntry implements Serializable {
   private Food food;
   private int servings;
 
+  // Default constructor for Jackson
+  public LogEntry() {
+  }
+
   public LogEntry(LocalDate date, Food food, int servings) {
       this.date = date;
       this.food = food;
