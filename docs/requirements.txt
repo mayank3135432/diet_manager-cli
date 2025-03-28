@@ -33,7 +33,3 @@ Key Design Points
 1. New ways of computing target calories must be easy to add without ripple effects throughout the program.
 2. New sources of basic food information must be easy to add without ripple effects throughout the program.
 3. The log file may grow to be quite large; for this reason, using approaches that reduce or eliminate duplicate copies of objects is highly desirable (this is a very broad hint).
-
-
-
-
