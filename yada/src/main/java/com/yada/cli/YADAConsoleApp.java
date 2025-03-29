@@ -16,6 +16,9 @@ public class YADAConsoleApp {
     private UserProfile currentUser;
     private LocalDate currentDate;
 
+    
+    
+
     public YADAConsoleApp() {
         this.foodService = new FoodService();
         this.logService = new LogService();
@@ -393,9 +396,23 @@ public class YADAConsoleApp {
         System.out.println("Target Calories: " + targetCalories);
         System.out.println("Calories Difference: " + (targetCalories - totalCaloriesConsumed));
     }
-
+/* 
     private int readIntInput() throws Exception {
         return Integer.parseInt(reader.readLine());
+    }
+     */
+    private int readIntInput() throws Exception {
+        String input = reader.readLine();
+        if (input == null || input.trim().isEmpty()) {
+            //System.out.println("Input cannot be empty. Please enter a valid number.");
+            return readIntInput(); // Prompt the user again
+        }
+        try {
+            return Integer.parseInt(input.trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            return readIntInput(); // Prompt the user again
+        }
     }
 
     public static void main(String[] args) {

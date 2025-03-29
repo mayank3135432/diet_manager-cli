@@ -4,7 +4,7 @@
       "date" : "2025-03-28",
       "food" : [ "com.yada.model.BasicFood", {
         "identifier" : "Veg",
-        "keywords" : [ "java.util.Arrays$ArrayList", [ "dhaniya", "papaya" ] ],
+        "keywords" : [ "java.util.ArrayList", [ "dhaniya", "papaya" ] ],
         "calories" : 234
       } ],
       "servings" : 2,
