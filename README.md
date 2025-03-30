@@ -24,13 +24,17 @@ YADA is a Java-based console application that helps users track their food intak
    git clone https://your-repository-url/diet-assistant.git
    cd diet-assistant
    ```
-2. **Build the project**:
+2. **Initialise data (optional)**
+   ```bash
+   mv -t yada database.json
+   ```
+3. **Build the project**:
    Use Maven to clean and build the project. This will compile the source code, run tests, and package the application into a JAR file.
    ```bash
    mvn clean package
    ```
 
-3. **Run the application**:
+4. **Run the application**:
    Execute the packaged JAR file using the Java runtime. This will start the YADA console application.
    ```bash
    java -jar target/diet-assistant-1.0-SNAPSHOT.jar
