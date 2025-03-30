@@ -1,37 +1,37 @@
 package com.yada.model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
-public class DailyLog implements Serializable {
+public class DailyLog {
+    private int userId;
+    private LocalDate date;
     private List<LogEntry> entries;
-    private Stack<List<LogEntry>> undoStack;
 
     public DailyLog() {
         this.entries = new ArrayList<>();
-        this.undoStack = new Stack<>();
+    }
+    
+    public DailyLog(int userId, LocalDate date) {
+        this.userId = userId;
+        this.date = date;
+        this.entries = new ArrayList<>();
     }
 
-    public void addFood(LogEntry entry) {
-        undoStack.push(new ArrayList<>(entries));
-        entries.add(entry);
+    public int getUserId() {
+        return userId;
     }
 
-    public void removeFood(LogEntry entry) {
-        undoStack.push(new ArrayList<>(entries));
-        entries.remove(entry);
-    }
-
-    public void undo() {
-        if (!undoStack.isEmpty()) {
-            entries = undoStack.pop();
-        }
+    public LocalDate getDate() {
+        return date;
     }
 
     public List<LogEntry> getEntries() {
         return entries;
+    }
+
+    public void addEntry(LogEntry entry) {
+        entries.add(entry);
     }
 }

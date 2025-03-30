@@ -4,68 +4,72 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.yada.model.*;
-import java.util.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LogService {
-    private Map<LocalDate, DailyLog> logs;
-    private static final String LOG_FILE = "logs.json";
+    private List<DailyLog> dailyLogs;
+    private static final String DATABASE_FILE = "database.json";
     private final ObjectMapper mapper;
-  
+
     public LogService() {
-        this.logs = new HashMap<>();
+        this.dailyLogs = new ArrayList<>();
         this.mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.registerModule(new JavaTimeModule()); // Register JavaTimeModule for LocalDate
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), 
-                                    ObjectMapper.DefaultTyping.NON_FINAL);
     }
 
-    public void addFood(LocalDate date, Food food, int servings) {
-        DailyLog dailyLog = logs.computeIfAbsent(date, k -> new DailyLog());
-        dailyLog.addFood(new LogEntry(date, food, servings));
+    public void addFoodToLog(int userId, LocalDate date, int foodId, int servings) {
+        DailyLog dailyLog = dailyLogs.stream()
+            .filter(log -> log.getUserId() == userId && log.getDate().equals(date))
+            .findFirst()
+            .orElseGet(() -> {
+                DailyLog newLog = new DailyLog(userId, date);
+                dailyLogs.add(newLog);
+                return newLog;
+            });
+
+        dailyLog.addEntry(new LogEntry(foodId, servings));
     }
 
-    public void removeFood(LocalDate date, LogEntry entry) {
-        DailyLog dailyLog = logs.get(date);
-        if (dailyLog != null) {
-            dailyLog.removeFood(entry);
-        }
+    public List<LogEntry> getDailyLog(int userId, LocalDate date) {
+        return dailyLogs.stream()
+            .filter(log -> log.getUserId() == userId && log.getDate().equals(date))
+            .map(DailyLog::getEntries)
+            .findFirst()
+            .orElse(new ArrayList<>());
     }
 
-    public void undo() {
-        logs.values().forEach(DailyLog::undo);
-    }
-
-    public List<LogEntry> getDailyLog(LocalDate date) {
-        DailyLog dailyLog = logs.get(date);
-        return dailyLog != null ? dailyLog.getEntries() : new ArrayList<>();
-    }
-
-    public void saveLog() {
+    public void saveLogs() {
         try {
-            mapper.writeValue(new File(LOG_FILE), logs);
+            Database database = loadDatabaseFile();
+            database.setDailyLogs(dailyLogs);
+            mapper.writeValue(new File(DATABASE_FILE), database);
         } catch (IOException e) {
-            System.err.println("Error saving log: " + e.getMessage());
+            System.err.println("Error saving logs: " + e.getMessage());
         }
     }
 
-    public void loadLog() {
-        File file = new File(LOG_FILE);
-        if (!file.exists()) {
-            logs = new HashMap<>();
-            return;
-        }
-        
+    public void loadLogs() {
         try {
-            logs = mapper.readValue(file, 
-                    mapper.getTypeFactory().constructMapType(
-                            HashMap.class, LocalDate.class, DailyLog.class));
+            Database database = loadDatabaseFile();
+            this.dailyLogs = database.getDailyLogs();
         } catch (IOException e) {
-            System.err.println("Error loading log: " + e.getMessage());
-            logs = new HashMap<>();
+            System.err.println("Error loading logs: " + e.getMessage());
+            this.dailyLogs = new ArrayList<>();
         }
+    }
+
+    private Database loadDatabaseFile() throws IOException {
+        File file = new File(DATABASE_FILE);
+        if (!file.exists() || file.length() == 0) { // Check if file exists and is non-empty
+            System.out.println("Log database file is empty or missing. Initializing with default values.");
+            return new Database(); // Return an empty database object
+        }
+        return mapper.readValue(file, Database.class);
     }
 }

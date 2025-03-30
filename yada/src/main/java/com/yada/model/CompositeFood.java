@@ -1,39 +1,16 @@
 package com.yada.model;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 public class CompositeFood extends Food {
-  private List<Food> ingredients;
-  private Map<Food, Integer> ingredientServings;
+    private List<Ingredient> ingredients;
 
-  public CompositeFood(String identifier, List<String> keywords, List<Food> ingredients) {
-      super(identifier, keywords);
-      this.ingredients = ingredients;
-      this.ingredientServings = new HashMap<>();
-      for (Food ingredient : ingredients) {
-          ingredientServings.put(ingredient, 1); // default 1 serving
-      }
-  }
+    public CompositeFood(int id, String name, List<String> keywords, int calories, List<Ingredient> ingredients) {
+        super(id, name, keywords, calories, true);
+        this.ingredients = ingredients;
+    }
 
-  public void addIngredient(Food food, int servings) {
-      if (!ingredients.contains(food)) {
-          ingredients.add(food);
-      }
-      ingredientServings.put(food, servings);
-  }
-
-  @Override
-  public int getCalories() {
-      return ingredients.stream()
-          .mapToInt(ingredient -> 
-              ingredient.getCalories() * ingredientServings.getOrDefault(ingredient, 1))
-          .sum();
-  }
-
-  @Override
-  public List<String> getKeywords() {
-      return keywords;
-  }
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
 }

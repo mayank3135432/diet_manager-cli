@@ -1,38 +1,31 @@
 package com.yada.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
-import java.time.LocalDate;
+public class LogEntry {
+    private int foodId;
+    private int servings;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class LogEntry implements Serializable {
-  private LocalDate date;
-  private Food food;
-  private int servings;
+    // Default constructor for Jackson
+    public LogEntry() {
+    }
 
-  // Default constructor for Jackson
-  public LogEntry() {
-  }
+    public LogEntry(int foodId, int servings) {
+        this.foodId = foodId;
+        this.servings = servings;
+    }
 
-  public LogEntry(LocalDate date, Food food, int servings) {
-      this.date = date;
-      this.food = food;
-      this.servings = servings;
-  }
+    public int getFoodId() {
+        return foodId;
+    }
 
-  public int getTotalCalories() {
-      return food.getCalories() * servings;
-  }
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
 
-  public LocalDate getDate() {
-      return date;
-  }
+    public int getServings() {
+        return servings;
+    }
 
-  public Food getFood() {
-      return food;
-  }
-
-  public int getServings() {
-      return servings;
-  }
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
 }

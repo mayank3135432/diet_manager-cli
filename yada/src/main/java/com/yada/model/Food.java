@@ -1,24 +1,42 @@
 package com.yada.model;
 
-import java.util.*;
-import java.io.Serializable;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-public abstract class Food implements Serializable {
-    protected String identifier;
-    protected List<String> keywords;
+import java.util.List;
 
-    public Food(String identifier, List<String> keywords) {
-        this.identifier = identifier;
+@JsonDeserialize(using = FoodDeserializer.class)
+public abstract class Food {
+    private int id;
+    private String name;
+    private List<String> keywords;
+    private int calories;
+    private boolean isComposite;
+
+    public Food(int id, String name, List<String> keywords, int calories, boolean isComposite) {
+        this.id = id;
+        this.name = name;
         this.keywords = keywords;
+        this.calories = calories;
+        this.isComposite = isComposite;
     }
 
-    public abstract int getCalories();
-    public abstract List<String> getKeywords();
+    public int getId() {
+        return id;
+    }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public boolean isComposite() {
+        return isComposite;
     }
 }
-
-
-

@@ -1,38 +1,63 @@
 package com.yada.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UserProfile implements Serializable {
+public class UserProfile {
+    private int id;
+    private String name;
     private String gender;
-    private double height;
-    private double weight;
+    private int height;
     private int age;
     private String activityLevel;
+    private List<WeightHistory> weightHistory;
+    private CalorieGoal calorieGoal;
 
-    // Default constructor for Jackson
     public UserProfile() {
+        this.weightHistory = new ArrayList<>();
     }
-
-    public UserProfile(String gender, double height, double weight, int age, String activityLevel) {
+    
+    public UserProfile(int id, String name, String gender, int height, int age, String activityLevel,
+                       List<WeightHistory> weightHistory, CalorieGoal calorieGoal) {
+        this.id = id;
+        this.name = name;
         this.gender = gender;
         this.height = height;
-        this.weight = weight;
         this.age = age;
         this.activityLevel = activityLevel;
+        this.weightHistory = weightHistory;
+        this.calorieGoal = calorieGoal;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public int getId() {
+        return id;
     }
 
-    public void setActivityLevel(String activityLevel) {
-        this.activityLevel = activityLevel;
+    public String getName() {
+        return name;
     }
 
-    // Getters
-    public String getGender() { return gender; }
-    public double getHeight() { return height; }
-    public double getWeight() { return weight; }
-    public int getAge() { return age; }
-    public String getActivityLevel() { return activityLevel; }
+    public String getGender() {
+        return gender;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getActivityLevel() {
+        return activityLevel;
+    }
+
+    public List<WeightHistory> getWeightHistory() {
+        return weightHistory;
+    }
+
+    public CalorieGoal getCalorieGoal() {
+        return calorieGoal;
+    }
 }
