@@ -28,6 +28,13 @@ public class UserProfile {
         this.weightHistory = weightHistory;
         this.calorieGoal = calorieGoal;
     }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public void setActivityLevel(String activityLevel) {
+        this.activityLevel = activityLevel;
+    }
 
     public int getId() {
         return id;

@@ -35,6 +35,17 @@ public class LogService {
 
         dailyLog.addEntry(new LogEntry(foodId, servings));
     }
+    public void removeFoodFromLog(int userId, LocalDate date, int entryIndex) {
+        dailyLogs.stream()
+            .filter(log -> log.getUserId() == userId && log.getDate().equals(date))
+            .findFirst()
+            .ifPresent(dailyLog -> {
+                List<LogEntry> entries = dailyLog.getEntries();
+                if (entryIndex >= 0 && entryIndex < entries.size()) {
+                    entries.remove(entryIndex);
+                }
+            });
+        }
 
     public List<LogEntry> getDailyLog(int userId, LocalDate date) {
         return dailyLogs.stream()

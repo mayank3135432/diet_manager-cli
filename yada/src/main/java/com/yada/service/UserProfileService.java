@@ -45,6 +45,23 @@ public class UserProfileService {
             System.err.println("Error saving user profiles: " + e.getMessage());
         }
     }
+    public void updateActivityLevel(int userId, String activityLevel) {
+        getUserProfile(userId).setActivityLevel(activityLevel);
+    }
+    
+    public void updateAge(int userId, int age) {
+        getUserProfile(userId).setAge(age);
+    }
+    
+    public void updateCalorieCalculationMethod(int userId, String method) {
+        CalorieGoal calorieGoal = getUserProfile(userId).getCalorieGoal();
+        calorieGoal.setMethod(method);
+    }
+    
+    public void updateTargetCalories(int userId, int targetCalories) {
+        CalorieGoal calorieGoal = getUserProfile(userId).getCalorieGoal();
+        calorieGoal.setTargetCalories(targetCalories);
+    }
 
     public void loadUserProfiles() {
         try {
