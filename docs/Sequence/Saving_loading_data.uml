@@ -1,0 +1,82 @@
+@startuml Saving and Loading Data
+
+participant "YADAConsoleApp" as App
+participant "FoodService" as FoodSvc
+participant "LogService" as LogSvc
+participant "UserProfileService" as UserSvc
+participant "ObjectMapper" as Mapper
+participant "Database" as DB
+participant "FoodDeserializer" as Deserializer
+participant "FileSystem" as FS
+
+== Application Startup ==
+
+App -> App: start()
+activate App
+
+App -> FoodSvc: loadDatabase()
+activate FoodSvc
+FoodSvc -> Mapper: registerModule(SimpleModule with FoodDeserializer)
+FoodSvc -> FS: read foods.json
+FS --> FoodSvc: JSON data
+FoodSvc -> Mapper: readValue(json, Database.class)
+activate Mapper
+Mapper -> Deserializer: deserialize Food objects
+Mapper --> FoodSvc: Database object
+deactivate Mapper
+FoodSvc -> FoodSvc: foods = database.getFoods()
+FoodSvc --> App: Success
+deactivate FoodSvc
+
+App -> LogSvc: loadLogs()
+activate LogSvc
+LogSvc -> FS: read logs.json
+FS --> LogSvc: JSON data
+LogSvc -> Mapper: readValue(json, Database.class)
+Mapper --> LogSvc: Database object
+LogSvc -> LogSvc: dailyLogs = database.getDailyLogs()
+LogSvc --> App: Success
+deactivate LogSvc
+
+App -> UserSvc: loadUserProfiles()
+activate UserSvc
+UserSvc -> FS: read users.json
+FS --> UserSvc: JSON data
+UserSvc -> Mapper: readValue(json, Database.class)
+Mapper --> UserSvc: Database object
+UserSvc -> UserSvc: users = database.getUsers()
+UserSvc --> App: Success
+deactivate UserSvc
+
+== Application Shutdown ==
+
+App -> FoodSvc: saveDatabase()
+activate FoodSvc
+FoodSvc -> DB: setFoods(foods)
+FoodSvc -> Mapper: writeValue(file, database)
+Mapper --> FoodSvc: Success
+FoodSvc -> FS: write to foods.json
+FoodSvc --> App: Success
+deactivate FoodSvc
+
+App -> LogSvc: saveLogs()
+activate LogSvc
+LogSvc -> DB: setDailyLogs(dailyLogs)
+LogSvc -> Mapper: writeValue(file, database)
+Mapper --> LogSvc: Success
+LogSvc -> FS: write to logs.json
+LogSvc --> App: Success
+deactivate LogSvc
+
+App -> UserSvc: saveUserProfiles()
+activate UserSvc
+UserSvc -> DB: setUsers(users)
+UserSvc -> Mapper: writeValue(file, database)
+Mapper --> UserSvc: Success
+UserSvc -> FS: write to users.json
+UserSvc --> App: Success
+deactivate UserSvc
+
+deactivate App
+
+@enduml

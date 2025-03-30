@@ -1,0 +1,54 @@
+@startuml Undoing a Command
+
+actor User
+participant "YADAConsoleApp" as App
+participant "Command" as Cmd
+participant "LogService" as LogSvc
+participant "FoodService" as FoodSvc
+participant "UserProfileService" as UserSvc
+participant "Database" as DB
+
+User -> App: Select "Undo last action"
+activate App
+
+alt Stack is not empty
+    App -> App: command = commandHistory.pop()
+    activate Cmd
+    App -> Cmd: undo()
+    
+    alt AddFoodCommand
+        Cmd -> LogSvc: removeFoodFromLog(userId, date, entryIndex)
+        activate LogSvc
+        LogSvc -> DB: Save changes
+        LogSvc --> Cmd: Success
+        deactivate LogSvc
+    else RemoveFoodCommand
+        Cmd -> LogSvc: addFoodToLog(userId, date, foodId, servings)
+        activate LogSvc
+        LogSvc -> DB: Save changes
+        LogSvc --> Cmd: Success
+        deactivate LogSvc
+    else UpdateUserProfileCommand
+        Cmd -> UserSvc: restoreUserProfile(previousProfile)
+        activate UserSvc
+        UserSvc -> DB: Save changes
+        UserSvc --> Cmd: Success
+        deactivate UserSvc
+    else AddFoodCommand
+        Cmd -> FoodSvc: removeFood(foodId)
+        activate FoodSvc
+        FoodSvc -> DB: Save changes
+        FoodSvc --> Cmd: Success
+        deactivate FoodSvc
+    end
+    
+    Cmd --> App: Success
+    deactivate Cmd
+    App --> User: "Action undone successfully"
+else Stack is empty
+    App --> User: "Nothing to undo"
+end
+
+deactivate App
+
+@enduml

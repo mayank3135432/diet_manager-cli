@@ -1,0 +1,42 @@
+@startuml Creating a Composite Food
+
+actor User
+participant "YADAConsoleApp" as App
+participant "AddCompositeFoodCommand" as Command
+participant "FoodService" as FoodSvc
+participant "CompositeFood" as CFood
+participant "Database" as DB
+
+User -> App: Select "Add composite food"
+activate App
+
+App -> App: Display form for composite food
+User -> App: Enter name, keywords, ingredients
+
+App -> Command: new AddCompositeFoodCommand(foodService, \nname, keywords, ingredients)
+activate Command
+
+App -> Command: execute()
+Command -> FoodSvc: addCompositeFood(name, keywords, ingredients)
+activate FoodSvc
+
+FoodSvc -> FoodSvc: Generate new food ID
+FoodSvc -> CFood: new CompositeFood(id, name, keywords, \ncalories, ingredients)
+activate CFood
+CFood --> FoodSvc: compositeFood
+deactivate CFood
+
+FoodSvc -> FoodSvc: foods.add(compositeFood)
+FoodSvc -> DB: Save changes
+FoodSvc --> Command: Success
+deactivate FoodSvc
+
+Command --> App: Success
+deactivate Command
+
+App -> App: commandHistory.push(command)
+App --> User: Confirmation message
+
+deactivate App
+
+@enduml

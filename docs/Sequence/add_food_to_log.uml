@@ -1,0 +1,49 @@
+@startuml Adding Food to Daily Log
+
+actor User
+participant "YADAConsoleApp" as App
+participant "AddFoodCommand" as Command
+participant "LogService" as LogSvc
+participant "FoodService" as FoodSvc
+participant "DailyLog" as Log
+participant "Database" as DB
+
+User -> App: Select "Add food to log"
+activate App
+
+App -> App: Display food search interface
+User -> App: Enter search keywords
+App -> FoodSvc: searchFood(keywords)
+activate FoodSvc
+FoodSvc --> App: matching foods
+deactivate FoodSvc
+
+App -> App: Display matching foods
+User -> App: Select food and enter servings
+
+App -> Command: new AddFoodCommand(logService, \nuserId, date, foodId, servings)
+activate Command
+
+App -> Command: execute()
+Command -> LogSvc: addFoodToLog(userId, date, foodId, servings)
+activate LogSvc
+
+LogSvc -> LogSvc: Find or create DailyLog for user and date
+LogSvc -> Log: addEntry(new LogEntry(foodId, servings))
+activate Log
+Log --> LogSvc: Updated log
+deactivate Log
+
+LogSvc -> DB: Save changes
+LogSvc --> Command: Success
+deactivate LogSvc
+
+Command --> App: Success
+deactivate Command
+
+App -> App: commandHistory.push(command)
+App --> User: Confirmation message
+
+deactivate App
+
+@enduml

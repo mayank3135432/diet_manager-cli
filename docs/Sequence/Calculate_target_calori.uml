@@ -1,0 +1,59 @@
+@startuml Calculating Calorie Target
+
+actor User
+participant "YADAConsoleApp" as App
+participant "UpdateCalorieMethodCommand" as Command
+participant "UserProfileService" as UserSvc
+participant "UserProfile" as Profile
+participant "BMRCalculator" as BMR
+participant "AlternateCalculator" as Alt
+participant "Database" as DB
+
+User -> App: Select "Update calorie calculation method"
+activate App
+
+App -> App: Display calculator options
+User -> App: Select calculation method (BMR/Alternate)
+
+App -> Command: new UpdateCalorieMethodCommand(userService, \nuserId, method)
+activate Command
+
+App -> Command: execute()
+Command -> UserSvc: updateCalorieCalculationMethod(userId, method)
+activate UserSvc
+
+UserSvc -> UserSvc: profile = getUserProfile(userId)
+UserSvc -> Profile: getCalorieGoal().setMethod(method)
+activate Profile
+
+alt method == "BMR"
+    UserSvc -> BMR: new BMRCalculator()
+    activate BMR
+    UserSvc -> BMR: calculateTargetCalories(profile)
+    BMR --> UserSvc: targetCalories
+    deactivate BMR
+else method == "ALTERNATE"
+    UserSvc -> Alt: new AlternateCalculator()
+    activate Alt
+    UserSvc -> Alt: calculateTargetCalories(profile)
+    Alt --> UserSvc: targetCalories
+    deactivate Alt
+end
+
+UserSvc -> Profile: getCalorieGoal().setTargetCalories(targetCalories)
+Profile --> UserSvc: Success
+deactivate Profile
+
+UserSvc -> DB: Save changes
+UserSvc --> Command: Success
+deactivate UserSvc
+
+Command --> App: Success
+deactivate Command
+
+App -> App: commandHistory.push(command)
+App --> User: "Calorie target updated to: " + targetCalories
+
+deactivate App
+
+@enduml
