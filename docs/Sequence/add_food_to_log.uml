@@ -1,4 +1,4 @@
-@startuml Adding Food to Daily Log
+@startuml Adding_Food_to_Daily_Log
 
 actor User
 participant "YADAConsoleApp" as App

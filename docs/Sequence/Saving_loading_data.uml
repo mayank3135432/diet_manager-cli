@@ -1,4 +1,4 @@
-@startuml Saving and Loading Data
+@startuml Saving_and_Loading_Data
 
 participant "YADAConsoleApp" as App
 participant "FoodService" as FoodSvc

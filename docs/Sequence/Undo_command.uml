@@ -1,4 +1,4 @@
-@startuml Undoing a Command
+@startuml Undoing_a_Command
 
 actor User
 participant "YADAConsoleApp" as App

@@ -1,0 +1,41 @@
+@startuml Food Classes
+
+abstract class Food {
+  -int id
+  -String name
+  -List<String> keywords
+  -int calories
+  -boolean isComposite
+  +int getId()
+  +String getName()
+  +List<String> getKeywords()
+  +int getCalories()
+  +boolean isComposite()
+}
+
+class BasicFood extends Food {
+  +BasicFood(int id, String name, List<String> keywords, int calories)
+}
+
+class CompositeFood extends Food {
+  -List<Ingredient> ingredients
+  +CompositeFood(int id, String name, List<String> keywords, int calories, List<Ingredient> ingredients)
+  +List<Ingredient> getIngredients()
+}
+
+class Ingredient {
+  -int foodId
+  -int servings
+  +int getFoodId()
+  +int getServings()
+}
+
+class FoodDeserializer {
+  +Food deserialize(JsonParser parser, DeserializationContext context)
+}
+
+CompositeFood o-- "1..*" Ingredient : contains
+Ingredient --> "1" Food : references by ID
+Food <|.. FoodDeserializer : deserializes
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml User Profile Classes
+
+class UserProfile {
+  -int id
+  -String name
+  -String gender
+  -int height
+  -int age
+  -String activityLevel
+  -List<WeightHistory> weightHistory
+  -CalorieGoal calorieGoal
+  +getters and setters
+}
+
+class WeightHistory {
+  -LocalDate date
+  -double weight
+  +LocalDate getDate()
+  +double getWeight()
+}
+
+class CalorieGoal {
+  -String method
+  -int targetCalories
+  +getters and setters
+}
+
+interface CalorieCalculator {
+  +int calculateTargetCalories(UserProfile user)
+}
+
+class BMRCalculator implements CalorieCalculator {
+  +int calculateTargetCalories(UserProfile user)
+}
+
+class AlternateCalculator implements CalorieCalculator {
+  +int calculateTargetCalories(UserProfile user)
+}
+
+UserProfile *-- "1..*" WeightHistory : contains
+UserProfile *-- "1" CalorieGoal : contains
+UserProfile --> CalorieCalculator : uses calculation from
+
+@enduml

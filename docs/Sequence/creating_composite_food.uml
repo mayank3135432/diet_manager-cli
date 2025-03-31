@@ -1,4 +1,4 @@
-@startuml Creating a Composite Food
+@startuml Creating_a_Composite_Food
 
 actor User
 participant "YADAConsoleApp" as App

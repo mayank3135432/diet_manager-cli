@@ -1,0 +1,69 @@
+@startuml Service and Log Classes
+
+class DailyLog {
+  -int userId
+  -LocalDate date
+  -List<LogEntry> entries
+  +int getUserId()
+  +LocalDate getDate()
+  +List<LogEntry> getEntries()
+  +void addEntry(LogEntry entry)
+}
+
+class LogEntry {
+  -int foodId
+  -int servings
+  +int getFoodId()
+  +int getServings()
+}
+
+class Database {
+  -List<Food> foods
+  -List<DailyLog> dailyLogs
+  -List<UserProfile> users
+  +getters and setters
+}
+
+class FoodService {
+  -List<Food> foods
+  -ObjectMapper mapper
+  +void addBasicFood(String name, List<String> keywords, int calories)
+  +void addCompositeFood(String name, List<Ingredient> ingredients)
+  +Food getFoodById(int id)
+  +List<Food> searchFood(List<String> keywords)
+  +List<Food> getAllFoods()
+  +void saveDatabase()
+  +void loadDatabase()
+}
+
+class LogService {
+  -List<DailyLog> dailyLogs
+  -ObjectMapper mapper
+  +void addFoodToLog(int userId, LocalDate date, int foodId, int servings)
+  +void removeFoodFromLog(int userId, LocalDate date, int entryIndex)
+  +List<LogEntry> getDailyLog(int userId, LocalDate date)
+  +void saveLogs()
+  +void loadLogs()
+}
+
+class UserProfileService {
+  -List<UserProfile> users
+  -ObjectMapper mapper
+  +UserProfile getUserProfile(int userId)
+  +void addUserProfile(UserProfile userProfile)
+  +List<UserProfile> getAllUsers()
+  +void updateActivityLevel(int userId, String activityLevel)
+  +void updateAge(int userId, int age)
+  +void updateCalorieCalculationMethod(int userId, String method)
+  +void updateTargetCalories(int userId, int targetCalories)
+  +void saveUserProfiles()
+  +void loadUserProfiles()
+}
+
+DailyLog *-- "0..*" LogEntry : contains
+LogEntry --> "1" Food : references by ID
+FoodService --> Database : persists
+LogService --> Database : persists
+UserProfileService --> Database : persists
+
+@enduml

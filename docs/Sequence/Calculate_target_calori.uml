@@ -1,4 +1,4 @@
-@startuml Calculating Calorie Target
+@startuml Calculating_Calorie_Target
 
 actor User
 participant "YADAConsoleApp" as App
