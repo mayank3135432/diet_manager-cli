@@ -141,24 +141,19 @@ public class YADAConsoleApp {
     }
             
     private void addBasicFood() throws Exception {
-        System.out.print("Enter food name: ");
-        String name = reader.readLine();
-    
-        System.out.print("Enter keywords (comma-separated): ");
-        List<String> keywords = Arrays.asList(reader.readLine().split(","));
-    
-        System.out.print("Enter calories: ");
-        int calories = Integer.parseInt(reader.readLine());
+        String name = readNonEmptyStringInput("Enter food name: ");
+        String keywordsInput = readNonEmptyStringInput("Enter keywords (comma-separated): ");
+        List<String> keywords = Arrays.asList(keywordsInput.split(","));
+        int calories = (int) readDoubleInput("Enter calories: ");
     
         foodService.addBasicFood(name, keywords, calories);
         System.out.println("Basic food added successfully!");
     }
     
     private void addCompositeFood() throws Exception {
-        System.out.print("Enter composite food name: ");
-        String name = reader.readLine();
-    
+        String name = readNonEmptyStringInput("Enter composite food name: ");
         List<Ingredient> ingredients = new ArrayList<>();
+    
         while (true) {
             System.out.println("Select an ingredient (or 0 to finish):");
             List<Food> allFoods = foodService.getAllFoods();
@@ -175,16 +170,12 @@ public class YADAConsoleApp {
             }
     
             Food selectedFood = allFoods.get(ingredientChoice - 1);
-    
-            System.out.print("Enter number of servings: ");
-            int servings = Integer.parseInt(reader.readLine());
-    
+            int servings = (int) readDoubleInput("Enter number of servings: ");
             ingredients.add(new Ingredient(selectedFood.getId(), servings));
         }
     
-        List<String> keywords = new ArrayList<>();
-        System.out.print("Enter keywords for the composite food (comma-separated): ");
-        keywords.addAll(Arrays.asList(reader.readLine().split(",")));
+        String keywordsInput = readNonEmptyStringInput("Enter keywords for the composite food (comma-separated): ");
+        List<String> keywords = Arrays.asList(keywordsInput.split(","));
     
         foodService.addCompositeFood(name, ingredients);
         System.out.println("Composite food added successfully!");
@@ -517,19 +508,12 @@ public class YADAConsoleApp {
     private void setupUserProfile() throws Exception {
         if (userProfileService.getAllUsers().isEmpty()) {
             System.out.println("Welcome to YADA! Let's set up your profile.");
-
-            System.out.print("Enter your name: ");
-            String name = reader.readLine();
-
-            System.out.print("Enter Gender (Male/Female): ");
-            String gender = reader.readLine();
-
-            System.out.print("Enter Height (cm): ");
-            int height = Integer.parseInt(reader.readLine());
-
-            System.out.print("Enter Age: ");
-            int age = Integer.parseInt(reader.readLine());
-
+    
+            String name = readNonEmptyStringInput("Enter your name: ");
+            String gender = readNonEmptyStringInput("Enter Gender (Male/Female): ");
+            int height = (int) readDoubleInput("Enter Height (cm): ");
+            int age = (int) readDoubleInput("Enter Age: ");
+    
             System.out.println("Select Activity Level:");
             System.out.println("1. Sedentary");
             System.out.println("2. Lightly Active");
@@ -537,7 +521,7 @@ public class YADAConsoleApp {
             System.out.println("4. Very Active");
             System.out.println("5. Extra Active");
             int activityChoice = readIntInput();
-
+    
             String activityLevel;
             switch (activityChoice) {
                 case 1: activityLevel = "Sedentary"; break;
@@ -547,20 +531,19 @@ public class YADAConsoleApp {
                 case 5: activityLevel = "Extra Active"; break;
                 default: activityLevel = "Sedentary";
             }
-
+    
+            double weight = readDoubleInput("Enter your current weight (kg): ");
             List<WeightHistory> weightHistory = new ArrayList<>();
-            System.out.print("Enter your current weight (kg): ");
-            double weight = Double.parseDouble(reader.readLine());
             weightHistory.add(new WeightHistory(LocalDate.now(), weight));
-
+    
             CalorieGoal calorieGoal = new CalorieGoal("BMR", 0);
-
+    
             UserProfile profile = new UserProfile(
                 1, name, gender, height, age, activityLevel, weightHistory, calorieGoal
             );
             userProfileService.addUserProfile(profile);
         }
-
+    
         currentUser = userProfileService.getAllUsers().get(0);
     }
 
@@ -602,16 +585,44 @@ public class YADAConsoleApp {
     }
 
     private int readIntInput() throws Exception {
-        String input = reader.readLine();
-        if (input == null || input.trim().isEmpty()) {
-            System.out.println("Input cannot be empty. Please enter a valid number.");
-            return readIntInput();
+        while (true) {
+            String input = reader.readLine();
+            if (input == null || input.trim().isEmpty()) {
+                System.out.println("Input cannot be empty. Please enter a valid number.");
+                continue;
+            }
+            try {
+                return Integer.parseInt(input.trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
         }
-        try {
-            return Integer.parseInt(input.trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a valid number.");
-            return readIntInput();
+    }
+
+    private String readNonEmptyStringInput(String prompt) throws Exception {
+        while (true) {
+            System.out.print(prompt);
+            String input = reader.readLine();
+            if (input != null && !input.trim().isEmpty()) {
+                return input.trim();
+            }
+            System.out.println("Input cannot be empty. Please try again.");
+        }
+    }
+
+    private double readDoubleInput(String prompt) throws Exception {
+        while (true) {
+            System.out.print(prompt);
+            String input = reader.readLine();
+            if (input == null || input.trim().isEmpty()) {
+                System.out.println("Input cannot be empty. Please enter a valid number.");
+                continue;
+            }
+            try {
+                return Double.parseDouble(input.trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
         }
     }
 
