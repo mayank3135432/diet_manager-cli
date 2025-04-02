@@ -4,8 +4,8 @@
 **Project Name**: YADA: Yet Another Diet Assistant  
 **Date**: [Insert Date]  
 **Team Members**:  
-- [Member 1 Name]  
-- [Member 2 Name]  
+- Ved 2023101006  
+- Mayank 2024121005  
 
 ---
 

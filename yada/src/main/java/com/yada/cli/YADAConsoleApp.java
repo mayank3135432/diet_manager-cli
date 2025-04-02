@@ -30,8 +30,9 @@ public class YADAConsoleApp {
         System.out.println("2. Manage Daily Log");
         System.out.println("3. Manage User Profile");
         System.out.println("4. View Daily Nutrition Summary");
-        System.out.println("5. Undo Last Action"); // New undo option
-        System.out.println("6. Exit");
+        System.out.println("5. Undo Last Action");
+        System.out.println("6. Save to Disk");
+        System.out.println("7. Exit");
         System.out.print("Enter your choice: ");
     }
     
@@ -488,7 +489,20 @@ public class YADAConsoleApp {
                     case 3: manageUserProfile(); break;
                     case 4: viewDailyNutritionSummary(); break;
                     case 5: undoLastAction(); break; // New undo option
-                    case 6: // Exit (previously case 5)
+                    case 6: // Save
+                        // Just 
+                        System.out.print("Are you sure you wanna save ? You cannot Undore this action. (y/N) : ");
+                        String saveChoice = reader.readLine();
+                        if (!saveChoice.equalsIgnoreCase("y")) {
+                            System.out.println("Save Cancelled");
+                            break;
+                        }
+                        foodService.saveDatabase();
+                        logService.saveLogs();
+                        userProfileService.saveUserProfiles();
+                        System.out.println("Saved Succesfully"); 
+                        break;
+                    case 7: // Exit (previously case6) (b4 that previously case 5)
                         // Save and exit
                         foodService.saveDatabase();
                         logService.saveLogs();
