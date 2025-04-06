@@ -2,7 +2,7 @@
 
 ## Title Information  
 **Project Name**: YADA: Yet Another Diet Assistant  
-**Date**: [Insert Date]  
+**Date**: [5 apirl 2025]  
 **Team Members**:  
 - Ved 2023101006  
 - Mayank 2024121005  
@@ -24,8 +24,9 @@ YADA is a Java-based console application designed to help users track their food
 ---
 
 ## UML Diagrams  
-### Class Diagram  
+### Complete Class Diagram 
 ![Diet Assistant Class Diagram](./Class/Diet_Assistant_Class_Diagram.png)  
+## Breakdown of whole Class daigram 
 #### Food and Ingridents 
 ![Food and Ingredients](./Class/Food_Classes.png)  
 
@@ -34,7 +35,7 @@ YADA is a Java-based console application designed to help users track their food
 #### User Profile  
 ![Services and Database](./Class/User_Profile_Classes.png)  
 
-### Sequence Diagrams  
+## Sequence Diagrams  
 
 1. **Calculate Target Calories**  
 ![Calculate Target Calories](./Sequence/Calculating_Calorie_Target.png)  
@@ -83,14 +84,18 @@ The design of YADA reflects a balance among key software engineering principles:
 ### Law of Demeter  
 - Methods interact only with immediate collaborators, reducing dependencies and improving maintainability.  
 - For example, `YADAConsoleApp` interacts with services rather than directly accessing model objects.  
-
 ---
 
 ## Reflection  
 
 ### Strongest Aspects  
 1. **Extensibility**: The design supports adding new calorie calculation methods or food data sources with minimal changes.  
-2. **Undo Functionality**: The command pattern enables robust undo operations, enhancing user experience.  
+2. **Undo Functionality**: The command pattern enables robust undo operations, enhancing user experience.
+3. **Data Abstraction**: Separate classes for JSON data handling simplify integration of new data sources without modifying core components.
+4. **Interface-based Design**: Clear interfaces allow for multiple implementations of algorithms, following good object-oriented principles.
+5. **Single Responsibility Principle**: Each component has a clear, focused purpose with well-defined responsibilities.
+6. **Dependency Inversion**: Components depend on abstractions rather than concrete implementations, improving flexibility.
+7. **Testability**: The interface-driven architecture makes components easily mockable for unit testing.
 
 ### Weakest Aspects  
 1. **Scalability**: The current in-memory storage approach may not scale well for large datasets.  
