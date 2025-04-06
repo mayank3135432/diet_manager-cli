@@ -21,7 +21,7 @@ YADA is a Java-based console application that helps users track their food intak
 1. **Clone the repository**:
    Clone the YADA repository
    ```bash
-   git clone https://your-repository-url/diet-assistant.git
+   git clone https://github.com/mayank3135432/diet_manager-cli.git
    cd diet-assistant
    ```
 2. **Initialise data (optional)**
