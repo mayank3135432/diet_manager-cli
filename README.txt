@@ -22,7 +22,7 @@ YADA is a Java-based console application that helps users track their food intak
    Clone the YADA repository
    ```bash
    git clone https://github.com/mayank3135432/diet_manager-cli.git
-   cd diet-assistant
+   cd diet_manager-cli
    ```
 2. **Initialise data (optional)**
    ```bash
@@ -31,6 +31,7 @@ YADA is a Java-based console application that helps users track their food intak
 3. **Build the project**:
    Use Maven to clean and build the project. This will compile the source code, run tests, and package the application into a JAR file.
    ```bash
+   cd yada
    mvn clean package
    ```
 
