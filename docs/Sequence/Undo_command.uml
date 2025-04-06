@@ -34,12 +34,6 @@ alt Stack is not empty
         UserSvc -> DB: Save changes
         UserSvc --> Cmd: Success
         deactivate UserSvc
-    else AddFoodCommand
-        Cmd -> FoodSvc: removeFood(foodId)
-        activate FoodSvc
-        FoodSvc -> DB: Save changes
-        FoodSvc --> Cmd: Success
-        deactivate FoodSvc
     end
     
     Cmd --> App: Success
